@@ -58,3 +58,12 @@ cluster_name: hz
 ## Manual remove bootstrap server
 Check that the loadbalancer gives green for the masters
 
+
+## Hetzner Cloud Volumes CSI driver
+oc apply -f https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
+
+The driver provided with hetzner was not able to run under 4.6.3/4.6.4
+https://github.com/hetznercloud/csi-driver
+
+
+
