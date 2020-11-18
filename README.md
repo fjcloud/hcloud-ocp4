@@ -8,6 +8,8 @@ Install ocp4 baremetal cluster on hetzner cloud with Ansible
 
 - Create ssh-key
 
+```# ssh-keygen -f auth/ssh-key -t ed25519 ```
+
 - Create auth/hcloud.yml
 
 ```
