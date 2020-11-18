@@ -21,12 +21,15 @@ token: <your hetzner token>
 
 pull_secret: '<your pull_secret>'
 ssh_pub_key: '<your ssh_pub_key>'
+
+base_domain: msl.cloud
+cluster_name: hz
 ```
 
 
 ## Create resources
 
-```# ansible-playbook playbooks/manage-resources.yml ```
+```# ansible-playbook playbooks/manage_cluster.yml -i auth/hcloud.yml ```
 
 ## Create fileserver
 
@@ -38,11 +41,11 @@ ssh_pub_key: '<your ssh_pub_key>'
 
 ## Reboot openshift node in rescue mode
 
-```# ansible-playbook playbooks/restart-rescue.yml ```
+```# ansible-playbook playbooks/restart-rescue.yml -i auth/hcloud.yml ```
 
 ## Prepare hosts for Openshift
 
-```# ansible-playbook playbooks/openshift4.yml -i hcloud```
+```# ansible-playbook playbooks/openshift4.yml -i auth/hcloud```
 
 ## Create DNS Record
 
@@ -50,4 +53,8 @@ ssh_pub_key: '<your ssh_pub_key>'
 
 ## Reboot hosts and boot on coreOS
 
-```# ansible-playbook playbooks/restart-hosts.yml ```
+```# ansible-playbook playbooks/restart-hosts.yml -i auth/hcloud.yml ```
+
+## Manual remove bootstrap server
+Check that the loadbalancer gives green for the masters
+
