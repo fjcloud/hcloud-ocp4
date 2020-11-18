@@ -1,0 +1,80 @@
+- name: Install prerequisites
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - git
+    - httpd
+
+- name: Make sure a httpd is running
+  systemd:
+    state: started
+    name: httpd
+    enabled: yes
+
+- name: Check if oc is installed
+  stat:
+    path: /usr/local/bin/oc
+  register: oc
+
+- name: Check if openshift-install is installed
+  stat:
+    path: /usr/local/bin/openshift-install
+  register: ocp_install
+
+- name: Check rhcos raw image is dowloaded
+  stat:
+    path: /var/www/html/rhcos-metal.x86_64.raw.gz
+  register: rhcos_raw
+
+- name: Download oc
+  get_url:
+    url: "{{ cmd_url }}"
+    dest: /tmp/openshift-client-linux.tar.gz
+  when: oc.stat.exists == false
+
+- name: Download openshift-install
+  get_url:
+    url: "{{ cmd_install_url }}"
+    dest: /tmp/openshift-install-linux.tar.gz
+  when: ocp_install.stat.exists == false
+
+- name: Download rhcos image
+  get_url:
+    url: "{{ image_url }}"
+    dest: /var/www/html/rhcos-metal.x86_64.raw.gz
+  when: rhcos_raw.stat.exists == false
+
+- name: Install oc
+  unarchive:
+    src: /tmp/openshift-client-linux.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+  when: oc.stat.exists == false
+
+- name: Install openshift-install
+  unarchive:
+    src: /tmp/openshift-install-linux.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+  when: ocp_install.stat.exists == false
+
+- name: create directory for config
+  file:
+    path: "/root/{{ cluster_name }}"
+    state: directory
+
+- name: Process template
+  template:
+    src: install-config.yaml.j2
+    dest: /root/install-config.yaml
+
+- name: Process template
+  template:
+    src: create_ignites.sh.j2
+    dest: /root/create_ignites.sh
+    mode: 700
+
+- name: print ssh command
+  debug:
+    msg: "ssh -i auth/ssh-key root@{{ ipv4 }}"

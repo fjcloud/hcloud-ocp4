@@ -1,0 +1,130 @@
+state_cluster: absent
+state_bootstrap: absent
+state_fileserver: absent
+state_lb: absent
+
+ssh_keys: 
+  - ocp-key
+
+hcloud_servers_inventory:
+
+  - server_name: fileserver
+    server_type: cx11
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: fileserver
+    state: "{{ state_fileserver }}"
+ 
+  - server_name: bootstrap
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: bootstrap
+      lb: api
+    state: "{{ state_bootstrap }}"
+
+  - server_name: master1
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: master
+      lb: api
+    state: "{{ state_cluster }}"
+
+  - server_name: master2
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: master
+      lb: api
+    state: "{{ state_cluster }}"
+
+  - server_name: master3
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: master
+      lb: api
+    state: "{{ state_cluster }}"
+
+  - server_name: worker1
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: worker
+    state: "{{ state_cluster }}"
+
+  - server_name: worker2
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: worker
+    state: "{{ state_cluster }}"
+
+  - server_name: worker3
+    server_type: cx41
+    image: fedora-32
+    location: fsn1
+    ssh_key: "{{ ssh_keys }}"
+    labels:
+      app: ocp
+      role: worker
+    state: "{{ state_cluster }}"
+
+hcloud_volumes_inventory: []
+
+hcloud_lb:
+  - name: lb-ocp4-api
+    location: fsn1
+    type: label_selector
+    load_balancer_type: lb11
+    label_selector: lb=api
+    state: "{{ state_lb }}"
+
+  - name: lb-ocp4-apps
+    location: fsn1
+    type: label_selector
+    load_balancer_type: lb11
+    label_selector: role=worker
+    state: "{{ state_lb }}"
+
+hcloud_lb_svc:
+  - load_balancer: lb-ocp4-api
+    port: 6443
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4-api
+    port: 22623
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4-apps
+    port: 80
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4-apps
+    port: 443
+    protocol: tcp
+    state: present

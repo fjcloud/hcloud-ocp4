@@ -1,0 +1,66 @@
+---
+
+- name: Create a basic ssh_key
+  hcloud_ssh_key:
+    name: ocp-key
+    api_token: "{{ token }}"
+    public_key: "{{ ssh_pub_key }}"
+    state: present
+
+- name: Create Servers from inventory
+  hcloud_server:
+    name: "{{ item.server_name }}"
+    server_type: "{{ item.server_type }}"
+    image: "{{ item.image }}"
+    location: "{{ item.location }}"
+    ssh_keys: "{{ item.ssh_key }}"
+    state: "{{ item.state }}"
+    api_token: "{{ token }}"
+    labels: "{{ item.labels }}"
+    volumes: "{{ item.volumes | default(omit) }}"
+  loop: "{{ hcloud_servers_inventory }}"
+
+- name: Create Volumes
+  hcloud_volume:
+    name: "{{ item.name }}"
+    size: "{{ item.size }}"
+    labels: "{{ item.labels }}"
+    state: "{{ item.state }}"
+    format: "{{ item.format }}"
+    api_token: "{{ token }}"
+    location: "{{ item.location | default(omit) }}"
+    automount: "{{ item.automount | default(omit) }}"
+    server: "{{ item.server | default(omit) }}"
+  loop: "{{ hcloud_volumes_inventory }}"
+
+
+- name: Create Load Balancer
+  hetzner.hcloud.hcloud_load_balancer:
+    name: "{{ item.name }}"
+    api_token: "{{ token }}"
+    load_balancer_type: "{{ item.load_balancer_type }}"
+    location: "{{ item.location }}"
+    state: "{{ item.state }}"
+  loop: "{{ hcloud_lb }}"
+
+- name: Create Load balancer target
+  hetzner.hcloud.hcloud_load_balancer.hcloud_load_balancer_target:
+    type: "{{ item.type }}"
+    load_balancer: "{{ item.name }}"
+    api_token: "{{ token }}"
+    label_selector: "{{ item.label_selector }}"
+    state: "{{ item.state }}"
+  loop: "{{ hcloud_lb }}"
+  when: state_lb == "present"
+
+- name: Create Load balancer service
+  hetzner.hcloud.hcloud_load_balancer.hcloud_load_balancer_service:
+    load_balancer: "{{ item.load_balancer }}"
+    protocol: "{{ item.protocol }}"
+    api_token: "{{ token }}"
+    listen_port: "{{ item.port }}"
+    destination_port: "{{ item.port }}"
+    state: "{{ item.state }}"
+  loop: "{{ hcloud_lb_svc }}"
+  when: state_lb == "present"
+

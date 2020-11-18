@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CLUSTER_NAME={{ cluster_name }}
+
+cp install-config.yaml ${CLUSTER_NAME}
+
+openshift-install --dir=${CLUSTER_NAME} create manifests
+
+sed -i "s/mastersSchedulable: true/mastersSchedulable: false/g" ${CLUSTER_NAME}/manifests/cluster-scheduler-02-config.yml
+
+openshift-install --dir=${CLUSTER_NAME} create ignition-configs
+
+cp -r ${CLUSTER_NAME}/*.ign /var/www/html
+
+chown apache:apache -R /var/www/html
+
+restorecon -R /var/www/html

@@ -1,0 +1,21 @@
+---
+
+- name: "Install Openshift"
+  hosts: label_app_fileserver
+  gather_facts: false
+  vars:
+    ansible_ssh_private_key_file: auth/ssh-key
+    ansible_user: root
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+    ocp_major_version: 4.6
+    ocp_minor_version: 4.6.3
+    image_url: http://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/{{ ocp_major_version }}/latest/rhcos-metal.x86_64.raw.gz
+    cmd_install_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/{{ ocp_minor_version }}/openshift-install-linux.tar.gz 
+    cmd_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/{{ ocp_minor_version }}/openshift-client-linux.tar.gz
+    base_domain: msl.cloud
+    cluster_name: hz
+  vars_files:
+    - ../auth/hcloud.yml
+  roles:
+    - ../roles/fileserver
