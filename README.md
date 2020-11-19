@@ -22,8 +22,8 @@ token: <your hetzner token>
 pull_secret: '<your pull_secret>'
 ssh_pub_key: '<your ssh_pub_key>'
 
-base_domain: msl.cloud
-cluster_name: hz
+base_domain: <your base domain>
+cluster_name: <your cluster name>
 ```
 
 
