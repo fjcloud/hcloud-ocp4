@@ -45,7 +45,7 @@ cluster_name: <your cluster name>
 
 ## Prepare hosts for Openshift
 
-```# ansible-playbook playbooks/openshift4.yml -i auth/hcloud```
+```# ansible-playbook playbooks/openshift4.yml -i auth/hcloud.yml ```
 
 ## Create DNS Record
 
