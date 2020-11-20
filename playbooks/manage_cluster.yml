@@ -3,7 +3,7 @@
 - name: "Create a server on Hetzner"
   hosts: localhost
   vars_files:
-    - ../inventory/5nodes-cluster.yml
+    - ../inventory/6nodes-cluster.yml
     - ../auth/hcloud.yml
   roles:
-    - ../roles/hcloud-resources 
+    - ../roles/hcloud-resources
