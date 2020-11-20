@@ -58,6 +58,13 @@ cluster_name: <your cluster name>
 ## Manual remove bootstrap server
 Check that the loadbalancer gives green for the masters
 
+### Login into fileserver
+``` ssh -i auth/ssh-key root@<fileserver-ip> ```
+``` cd <domain_name> ```
+```openshift-install wait-for bootstrap-complete --log-level debug ```
+```openshift-install wait-for install-complete --log-level debug ```
+
+
 
 ## Hetzner Cloud Volumes CSI driver
 oc apply -f https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
