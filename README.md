@@ -82,7 +82,10 @@ Check that the loadbalancer gives green for the masters
 ```  oc --insecure-skip-tls-verify get csr -o name | xargs oc --insecure-skip-tls-verify adm certificate approve ```
 
 ## Hetzner Cloud Volumes CSI driver
-oc apply -f https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
+oc apply -f https://github.com/buuhsmead/csi-driver/blob/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
+
+Based on
+ https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
 
 The driver provided with hetzner was not able to run under 4.6.3/4.6.4
 https://github.com/hetznercloud/csi-driver
