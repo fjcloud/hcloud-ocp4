@@ -47,9 +47,16 @@ cluster_name: <your cluster name>
 
 ```# ansible-playbook playbooks/openshift4.yml -i auth/hcloud.yml ```
 
-## Create DNS Record
+## Create ip4 DNS Record
 
 ```api; api-int; *.apps ```
+
+``` api.<cluster_name>.<base_domain> A <lb-ocp4-api IP>  ttl 1min```
+
+``` api-int.<cluster_name>.<base_domain> A <lb-ocp4-api IP> ttl 1min ```
+
+``` *.apps.<cluster_name>.<base_domain> A <lb-ocp4-apps IP> ttl 1min ```
+
 
 ## Reboot hosts and boot on coreOS
 
@@ -68,12 +75,18 @@ Check that the loadbalancer gives green for the masters
 ```openshift-install wait-for install-complete --log-level debug ```
 
 
+## When using workers, do sign the csr
+
+``` oc get csr ```
+
+```  oc --insecure-skip-tls-verify get csr -o name | xargs oc --insecure-skip-tls-verify adm certificate approve ```
 
 ## Hetzner Cloud Volumes CSI driver
 oc apply -f https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
 
 The driver provided with hetzner was not able to run under 4.6.3/4.6.4
 https://github.com/hetznercloud/csi-driver
+
 
 
 
