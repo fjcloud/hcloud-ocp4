@@ -60,8 +60,11 @@ Check that the loadbalancer gives green for the masters
 
 ### Login into fileserver
 ``` ssh -i auth/ssh-key root@<fileserver-ip> ```
+
 ``` cd <domain_name> ```
+
 ```openshift-install wait-for bootstrap-complete --log-level debug ```
+
 ```openshift-install wait-for install-complete --log-level debug ```
 
 
