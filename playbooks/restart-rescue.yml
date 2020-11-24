@@ -3,7 +3,7 @@
 - name: "Restart server in rescue"
   hosts: localhost
   vars_files:
-    - ../inventory/5nodes-cluster.yml
+    - ../inventory/6nodes-cluster.yml
     - ../auth/hcloud.yml
   roles:
     - ../roles/restart-rescue
