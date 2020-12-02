@@ -26,7 +26,6 @@ base_domain: <your base domain>
 cluster_name: <your cluster name>
 ```
 
-
 ## Create resources
 
 ```# ansible-playbook playbooks/manage_cluster.yml -i auth/hcloud.yml ```
@@ -35,7 +34,13 @@ cluster_name: <your cluster name>
 
 ```# ansible-playbook playbooks/fileserver.yml -i auth/hcloud.yml ```
 
-## Generate ign file from fileserver
+## Login into fileserver
+
+``` ssh -i auth/ssh-key root@<fileserver-ip> ```
+
+If you want to modify your install-config.yaml you can do it now.
+
+### Generate ignition config files
 
 ```# ./create_ignites.sh ```
 
@@ -47,7 +52,7 @@ cluster_name: <your cluster name>
 
 ```# ansible-playbook playbooks/openshift4.yml -i auth/hcloud.yml ```
 
-## Create ip4 DNS Record
+## Create DNS Record
 
 ```api; api-int; *.apps ```
 
@@ -57,29 +62,25 @@ cluster_name: <your cluster name>
 
 ``` *.apps.<cluster_name>.<base_domain> A <lb-ocp4-apps IP> ttl 1min ```
 
-
 ## Reboot hosts and boot on coreOS
 
 ```# ansible-playbook playbooks/restart-hosts.yml -i auth/hcloud.yml ```
 
-## Manual remove bootstrap server
-Check that the loadbalancer gives green for the masters
+## Remove bootstrap server when target is down in Hetzner
 
-### Login into fileserver
+```# ansible-playbook playbooks/manage_cluster.yml -i auth/hcloud.yml --extra-vars "state_bootstrap=absent" ```
+
+## Login into fileserver
+
 ``` ssh -i auth/ssh-key root@<fileserver-ip> ```
 
-``` cd <domain_name> ```
+### When using workers, do sign the csr
 
-```openshift-install wait-for bootstrap-complete --log-level debug ```
+``` # export KUBECONFIG=/root/<cluster_name>/auth/kubeconfig ```
 
-```openshift-install wait-for install-complete --log-level debug ```
+``` # oc get csr ```
 
-
-## When using workers, do sign the csr
-
-``` oc get csr ```
-
-```  oc --insecure-skip-tls-verify get csr -o name | xargs oc --insecure-skip-tls-verify adm certificate approve ```
+``` # oc get csr -o name | xargs oc adm certificate approve ```
 
 ## Hetzner Cloud Volumes CSI driver
 oc apply -f https://github.com/buuhsmead/csi-driver/blob/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
@@ -89,7 +90,3 @@ Based on
 
 The driver provided with hetzner was not able to run under 4.6.3/4.6.4
 https://github.com/hetznercloud/csi-driver
-
-
-
-

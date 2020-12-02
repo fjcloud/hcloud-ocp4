@@ -4,7 +4,7 @@ keyed_groups:
   prefix: label
 token: FnFkJNFfth6TQIvZ1DKLQn3CJ1KAWfC0ELgfh2P6A4i145TfzHoHEk2NTnSYAYCi
 
-cluster_domain: msl.cloud
+base_domain: msl.cloud
 
 cluster_name: hz
 

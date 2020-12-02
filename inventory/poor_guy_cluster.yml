@@ -1,7 +1,7 @@
-state_cluster: absent
-state_bootstrap: absent
-state_fileserver: absent
-state_lb: absent
+state_cluster: present
+state_bootstrap: present
+state_fileserver: present
+state_lb: present
 
 ssh_keys: 
   - ocp-key
@@ -39,30 +39,8 @@ hcloud_servers_inventory:
       lb: api
     state: "{{ state_cluster }}"
 
-  - server_name: master2
-    server_type: cx41
-    image: fedora-32
-    location: fsn1
-    ssh_key: "{{ ssh_keys }}"
-    labels:
-      app: ocp
-      role: master
-      lb: api
-    state: "{{ state_cluster }}"
-
-  - server_name: master3
-    server_type: cx41
-    image: fedora-32
-    location: fsn1
-    ssh_key: "{{ ssh_keys }}"
-    labels:
-      app: ocp
-      role: master
-      lb: api
-    state: "{{ state_cluster }}"
-
   - server_name: worker1
-    server_type: cx41
+    server_type: cx31
     image: fedora-32
     location: fsn1
     ssh_key: "{{ ssh_keys }}"
@@ -72,17 +50,7 @@ hcloud_servers_inventory:
     state: "{{ state_cluster }}"
 
   - server_name: worker2
-    server_type: cx41
-    image: fedora-32
-    location: fsn1
-    ssh_key: "{{ ssh_keys }}"
-    labels:
-      app: ocp
-      role: worker
-    state: "{{ state_cluster }}"
-
-  - server_name: worker3
-    server_type: cx41
+    server_type: cx31
     image: fedora-32
     location: fsn1
     ssh_key: "{{ ssh_keys }}"
