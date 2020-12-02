@@ -26,6 +26,8 @@ base_domain: <your base domain>
 cluster_name: <your cluster name>
 ```
 
+## Choose your type of cluster in inventory and set it in playbooks/manage_cluster.yml
+
 ## Create resources
 
 ```# ansible-playbook playbooks/manage_cluster.yml -i auth/hcloud.yml ```
@@ -81,6 +83,12 @@ If you want to modify your install-config.yaml you can do it now.
 ``` # oc get csr ```
 
 ``` # oc get csr -o name | xargs oc adm certificate approve ```
+
+### Poor guy cluster specific
+
+``` # oc patch etcd cluster -p='{"spec": {"unsupportedConfigOverrides": {"useUnsupportedUnsafeNonHANonProductionUnstableEtcd": true}}}' --type=merge ```
+
+``` # oc patch authentications.operator.openshift.io cluster -p='{"spec": {"unsupportedConfigOverrides": {"useUnsupportedUnsafeNonHANonProductionUnstableOAuthServer": true}}}' --type=merge ```
 
 ## Hetzner Cloud Volumes CSI driver
 oc apply -f https://github.com/buuhsmead/csi-driver/blob/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
