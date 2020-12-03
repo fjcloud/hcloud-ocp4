@@ -26,7 +26,7 @@ base_domain: <your base domain>
 cluster_name: <your cluster name>
 ```
 
-## Choose your type of cluster in inventory and set it in playbooks/manage_cluster.yml
+- Choose your type of cluster in inventory and set it in playbooks/manage_cluster.yml
 
 ## Create resources
 
