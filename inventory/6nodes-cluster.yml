@@ -1,11 +1,13 @@
-state_cluster: absent
-state_bootstrap: absent
-state_fileserver: absent
-state_lb: absent
+state_cluster: present
+state_bootstrap: present
+state_fileserver: present
+state_lb: present
 
 ssh_keys: 
   - ocp-key
-
+  - hetzner
+  - provision
+  
 hcloud_servers_inventory:
 
   - server_name: fileserver
@@ -128,3 +130,4 @@ hcloud_lb_svc:
     port: 443
     protocol: tcp
     state: present
+

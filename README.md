@@ -77,6 +77,8 @@ If you want to modify your install-config.yaml you can do it now.
 ``` ssh -i auth/ssh-key root@<fileserver-ip> ```
 
 ### When using workers, do sign the csr
+tip: when the workers are not activated, this could be the issue.
+
 
 ``` # export KUBECONFIG=/root/<cluster_name>/auth/kubeconfig ```
 
@@ -91,7 +93,7 @@ If you want to modify your install-config.yaml you can do it now.
 ``` # oc patch authentications.operator.openshift.io cluster -p='{"spec": {"unsupportedConfigOverrides": {"useUnsupportedUnsafeNonHANonProductionUnstableOAuthServer": true}}}' --type=merge ```
 
 ## Hetzner Cloud Volumes CSI driver
-oc apply -f https://github.com/buuhsmead/csi-driver/blob/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
+ oc apply -f https://raw.githubusercontent.com/buuhsmead/csi-driver/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
 
 Based on
  https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
