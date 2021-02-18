@@ -93,6 +93,11 @@ tip: when the workers are not activated, this could be the issue.
 ``` # oc patch authentications.operator.openshift.io cluster -p='{"spec": {"unsupportedConfigOverrides": {"useUnsupportedUnsafeNonHANonProductionUnstableOAuthServer": true}}}' --type=merge ```
 
 ## Hetzner Cloud Volumes CSI driver
+
+ Be sure that 'kube-system' is the current project
+
+ oc project kube-system
+
  oc apply -f https://raw.githubusercontent.com/buuhsmead/csi-driver/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
 
 Based on
