@@ -96,9 +96,9 @@ tip: when the workers are not activated, this could be the issue.
 
  Be sure that 'kube-system' is the current project
 
- oc project kube-system
+ `oc project kube-system`
 
- oc apply -f https://raw.githubusercontent.com/buuhsmead/csi-driver/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml
+ `oc apply -f https://raw.githubusercontent.com/buuhsmead/csi-driver/master/deploy/kubernetes/hcloud-csi-openshift-1.5.1.yml`
 
 Based on
  https://raw.githubusercontent.com/slauger/csi-driver/openshift/deploy/kubernetes/hcloud-csi-openshift.yml
