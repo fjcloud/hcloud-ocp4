@@ -8,13 +8,8 @@
     ansible_user: root
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
     ansible_python_interpreter: /usr/bin/python3
-<<<<<<< HEAD
     ocp_major_version: 4.8
     ocp_minor_version: latest
-=======
-    ocp_major_version: 4.6
-    ocp_minor_version: 4.6.15
->>>>>>> b17f8f93814120e1438f5b3e7dd9973cd70f0186
     image_url: http://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/{{ ocp_major_version }}/latest/rhcos-metal.x86_64.raw.gz
     cmd_install_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-{{ ocp_major_version }}/openshift-install-linux.tar.gz 
     cmd_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-{{ ocp_major_version }}/openshift-client-linux.tar.gz
