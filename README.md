@@ -1,6 +1,6 @@
 # hcloud-ocp4
 
-Install ocp4 baremetal cluster on hetzner cloud with Ansible
+Install ocp4 UPI cluster on hetzner cloud with Ansible
 
 ## Prerequisites
 
