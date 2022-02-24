@@ -1,0 +1,17 @@
+---
+
+- name: "Install Openshift"
+  hosts: label_app_fileserver
+  gather_facts: false
+  vars:
+    ansible_ssh_private_key_file: auth/ssh-key
+    ansible_user: root
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+    image_url: https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/32.20201104.3.0/x86_64/fedora-coreos-32.20201104.3.0-metal.x86_64.raw.xz
+    cmd_install_url: https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2020-11-27-200126/openshift-install-linux-4.6.0-0.okd-2020-11-27-200126.tar.gz
+    cmd_url: https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2020-11-27-200126/openshift-client-linux-4.6.0-0.okd-2020-11-27-200126.tar.gz
+  vars_files:
+    - ../auth/hcloud.yml
+  roles:
+    - ../roles/fileserver

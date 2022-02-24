@@ -1,0 +1,89 @@
+state_cluster: present
+state_bootstrap: present
+state_fileserver: present
+state_lb: present
+
+ssh_keys: 
+  - ocp-key
+
+hcloud_servers_inventory:
+
+  - server_name: fileserver
+    server_type: cx11
+    image: fedora-34
+    location: nbg1
+    ssh_key: "{{ ssh_keys}}"
+    labels:
+      app: fileserver
+    state: "{{ state_fileserver }}"
+ 
+  - server_name: bootstrap
+    server_type: cx41
+    image: fedora-34
+    location: nbg1
+    ssh_key: "{{ ssh_keys}}"
+    labels:
+      app: ocp
+      role: bootstrap
+    state: "{{ state_bootstrap }}"
+
+  - server_name: master1
+    server_type: cx41
+    image: fedora-34
+    location: nbg1
+    ssh_key: "{{ ssh_keys}}"
+    labels:
+      app: ocp
+      role: master
+    state: "{{ state_cluster }}"
+
+  - server_name: master2
+    server_type: cx41
+    image: fedora-34
+    location: nbg1
+    ssh_key: "{{ ssh_keys}}"
+    labels:
+      app: ocp
+      role: master
+    state: "{{ state_cluster }}"
+
+  - server_name: master3
+    server_type: cx41
+    image: fedora-34
+    location: nbg1
+    ssh_key: "{{ ssh_keys}}"
+    labels:
+      app: ocp
+      role: master
+    state: "{{ state_cluster }}"
+
+hcloud_volumes_inventory: []
+
+hcloud_lb:
+  - name: lb-ocp4
+    location: nbg1
+    type: label_selector
+    load_balancer_type: lb11
+    label_selector: role=master
+    state: "{{ state_lb }}"
+
+hcloud_lb_svc:
+  - load_balancer: lb-ocp4
+    port: 6443
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4
+    port: 22623
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4
+    port: 80
+    protocol: tcp
+    state: present
+
+  - load_balancer: lb-ocp4
+    port: 443
+    protocol: tcp
+    state: present

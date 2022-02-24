@@ -1,0 +1,10 @@
+---
+
+- name: restart ocp hosts
+  hcloud_server:
+    name: "{{ item.server_name }}"
+    state: restarted
+    ssh_keys: "{{ item.ssh_key }}"
+    api_token: "{{ token }}"
+  loop: "{{ hcloud_servers_inventory }}"
+  when: item.labels.app == "ocp"

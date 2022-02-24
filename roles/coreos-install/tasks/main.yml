@@ -1,0 +1,10 @@
+---
+
+- name: Download coreos-installer
+  get_url:
+    url: "{{ coreos_installer_url }}"
+    dest: /usr/local/bin/coreos-installer
+    mode: 700
+
+- name: Install RHCoreOS
+  shell: "coreos-installer install --ignition-url={{ coreos_ignition_url }} /dev/sda --insecure-ignition --image-url {{ coreos_image_url }} --insecure"

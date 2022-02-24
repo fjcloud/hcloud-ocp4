@@ -1,0 +1,17 @@
+---
+
+- name: "Install Openshift"
+  hosts: label_app_ocp
+  gather_facts: false
+  serial: 7
+  vars:
+    ansible_ssh_private_key_file: auth/ssh-key
+    ansible_user: root
+    fileserver_ip: "{{ hostvars.fileserver.ipv4 }}"
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+    coreos_ignition_url: "http://{{ fileserver_ip }}/{{ labels.role }}.ign"
+    coreos_image_url: "http://{{ fileserver_ip }}/rhcos-metal.x86_64.raw.gz"
+    coreos_installer_url: "http://mirror.openshift.com/pub/openshift-v4/x86_64/clients/coreos-installer/latest/coreos-installer"
+  roles:
+    - ../roles/coreos-install
